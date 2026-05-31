@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ==========================================
+         ЗАЩИТА И БЕЗОПАСНОСТЬ (ДОБАВЛЕНО)
+         ========================================== -->
+    <!-- Content Security Policy: Запрещает загрузку вредоносных скриптов со сторонних ресурсов -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://schema.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';">
+    <!-- Запрет браузеру угадывать типы файлов (защита от подмены) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <!-- Безопасная передача реферальных данных -->
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+    <!-- Скрипт защиты от Clickjacking (запрещает встраивать сайт во фреймы на чужих сайтах) -->
+    <style id="antiClickjack">body{display:none !important;}</style>
+    <script type="text/javascript">
+        if (self === top) {
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        } else {
+            top.location = self.location;
+        }
+    </script>
+
+    <!-- ==========================================
+         SEO & МЕТА-ТЕГИ
+         ========================================== -->
+    <title>Щёлк-ГДЗ — Нейросеть, которая решает домашку по фото в Telegram</title>
+    <meta name="description" content="Нейросеть, которая делает уроки за тебя. Скинь фото задания и получи подробное решение за 5 секунд. Математика, физика, химия и другие предметы.">
+    <meta name="keywords" content="ГДЗ по фото, нейросеть для учебы, решить домашку, бот решебник, ИИ репетитор, телеграм бот гдз">
+
+    <!-- Микроразметка SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Щёлк-ГДЗ",
+      "operatingSystem": "Telegram",
+      "applicationCategory": "EducationalApplication",
+      "description": "Нейросеть, которая делает уроки за тебя. Скинь фото задания и получи подробное решение за 5 секунд.",
+      "offers": [
+        { "@type": "Offer", "name": "Бесплатно", "price": "0", "priceCurrency": "RUB" },
+        { "@type": "Offer", "name": "Срочно", "price": "49", "priceCurrency": "RUB" },
+        { "@type": "Offer", "name": "Безлимит", "price": "299", "priceCurrency": "RUB" }
+      ]
+    }
+    </script>
+
+    <!-- Микроразметка FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Решает ли бот геометрию без текста?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Да! Наша нейросеть отлично понимает чертежи, графики и рукописный текст." }
+        },
+        {
+          "@type": "Question",
+          "name": "Это легально?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Бот работает как твой личный ИИ-репетитор. Он не просто дает ответ, но и объясняет решение по шагам." }
+        },
+        {
+          "@type": "Question",
+          "name": "Как быстро приходит ответ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "В среднем от 3 до 5 секунд в зависимости от сложности задания." }
+        },
+        {
+          "@type": "Question",
+          "name": "Понимает ли бот рукописный текст учителей?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Да! Наши нейросети обучены распознавать даже самый неразборчивый почерк с доски или из тетради. Просто сделай четкое фото." }
+        },
+        {
+          "@type": "Question",
+          "name": "Можно ли скинуть сразу целый вариант ОГЭ/ЕГЭ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "В бесплатной версии бот решает по 1 задаче. С подпиской «Безлимит» ты можешь загружать PDF-файлы или кидать альбомы до 10 фото разом — бот решит весь вариант." }
+        },
+        {
+          "@type": "Question",
+          "name": "По каким предметам есть ГДЗ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "По всем школьным предметам с 5 по 11 класс: Алгебра, Геометрия, Физика, Химия (включая цепочки реакций), Русский и Английский языки, Информатика." }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Подключаем шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Подключаем Tailwind CSS (Зафиксирована безопасная версия 3.4.3) -->
+    <script src="https://cdn.tailwindcss.com/3.4.3"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0A0A0F',
+                        darkerBg: '#05050A',
+                        primaryCyan: '#06B6D4',
+                        primaryBlue: '#3B82F6',
+                        accentYellow: '#FBBF24',
+                        cardBg: 'rgba(20, 20, 30, 0.6)'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- КАСТОМНЫЕ АНИМАЦИИ И ЭФФЕКТЫ -->
+    <style>
+        @keyframes blob1 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -30px) scale(1.1); } 66% { transform: translate(-30px, 40px) scale(0.9); } }
+        @keyframes blob2 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(-40px, 30px) scale(0.95); } 66% { transform: translate(50px, -50px) scale(1.05); } }
+        .animate-blob1 { animation: blob1 15s ease-in-out infinite; }
+        .animate-blob2 { animation: blob2 18s ease-in-out infinite; }
+
+        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeInLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeInRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-25px) rotate(1deg); } }
+
+        .animate-slide-down { animation: slideDown 0.8s ease-out; }
+        .animate-fade-in-left { animation: fadeInLeft 1s ease-out 0.3s backwards; }
+        .animate-fade-in-right { animation: fadeInRight 1s ease-out 0.5s backwards; }
+        .animate-fade-in { animation: fadeIn 1s ease-out backwards; }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out backwards; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #3B82F6, #06B6D4); transition: width 0.3s ease; border-radius: 2px; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover { color: #06B6D4; }
+
+        .feature-card { transition: all 0.4s ease; }
+        .feature-card:hover { transform: translateY(-8px); border-color: #06B6D4; box-shadow: 0 25px 50px rgba(6, 182, 212, 0.3), 0 0 0 1px rgba(6, 182, 212, 0.3); }
+
+        .btn-gradient { background: linear-gradient(135deg, #FBBF24, #F59E0B); color: #05050A; box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4); transition: all 0.3s ease; }
+        .btn-gradient:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(251, 191, 36, 0.6); }
+
+        details > summary { list-style: none; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+    </style>
+</head>
+
+<body class="bg-darkBg text-white font-sans antialiased overflow-x-hidden relative min-h-screen flex flex-col">
+
+    <!-- Задний анимированный фон -->
+    <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-b from-[#0a0a0f] to-[#050510] -z-20 pointer-events-none"></div>
+    <div class="fixed top-[-10%] left-[-20%] md:top-[-20%] md:left-[-15%] w-[300px] h-[300px] md:w-[700px] md:h-[700px] bg-primaryBlue/10 md:bg-primaryBlue/20 rounded-full blur-[80px] md:blur-[100px] animate-blob1 -z-10 pointer-events-none"></div>
+    <div class="fixed bottom-[-10%] right-[-20%] md:bottom-[-20%] md:right-[-15%] w-[300px] h-[300px] md:w-[900px] md:h-[900px] bg-primaryCyan/10 md:bg-primaryCyan/20 rounded-full blur-[80px] md:blur-[100px] animate-blob2 -z-10 pointer-events-none"></div>
+
+    <!-- ==========================================
+         ШАПКА САЙТА (HEADER)
+         ========================================== -->
+    <header class="sticky top-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-md border-b border-primaryBlue/20 animate-slide-down">
+        <div class="max-w-[1400px] mx-auto px-5 md:px-6 py-4 flex justify-between items-center">
+
+            <a href="#" class="font-heading font-black text-xl sm:text-2xl tracking-tight bg-gradient-to-r from-blue-400 to-white bg-clip-text text-transparent shrink-0">
+                Щёлк-ГДЗ
+            </a>
+
+            <!-- Навигационное меню -->
+            <nav class="hidden lg:flex items-center gap-10 text-sm font-medium">
+                <a href="#features" class="nav-link transition-colors duration-300 text-gray-200">Возможности</a>
+                <a href="#how" class="nav-link transition-colors duration-300 text-gray-200">Принцип работы</a>
+                <a href="#pricing" class="nav-link transition-colors duration-300 text-gray-200">Цены</a>
+                <a href="#faq" class="nav-link transition-colors duration-300 text-gray-200">FAQ</a>
+
+                <!-- ИСПРАВЛЕНО: добавлен rel="noopener noreferrer" -->
+                <a href="https://t.me/gdzshchelk_bot?start=fromweb" target="_blank" rel="noopener noreferrer" class="btn-gradient font-bold py-3 px-6 rounded-full text-sm whitespace-nowrap">
+                    Написать в чат бота
+                </a>
+            </nav>
+
+            <!-- ИСПРАВЛЕНО: добавлен rel="noopener noreferrer" -->
+            <a href="https://t.me/gdzshchelk_bot?start=fromweb" target="_blank" rel="noopener noreferrer" class="lg:hidden btn-gradient font-bold py-2 px-4 rounded-full text-sm whitespace-nowrap">
+                В бота
+            </a>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         ГЛАВНЫЙ ЭКРАН (HERO SECTION)
+         ========================================== -->
+    <section class="relative max-w-[1400px] mx-auto px-5 md:px-6 pt-12 pb-20 md:pt-28 md:pb-28 flex flex-col md:flex-row items-center justify-center gap-14 md:gap-20 flex-grow">
+
+        <div class="flex-grow flex-1 flex flex-col items-center text-center md:items-start md:text-left gap-6 z-10 animate-fade-in-left w-full">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black font-heading leading-tight uppercase w-full">
+                РЕШАЙ ДОМАШКУ ПО ФОТО ЗА <span class="text-yellow-400 block md:inline">5 СЕКУНД</span>
+            </h1>
+
+            <p class="text-gray-400 text-lg md:text-xl leading-relaxed max-w-xl mx-auto md:mx-0">
+                Нейросеть, которая делает уроки за тебя. Скинь фото задания и получи подробное решение, пока училка отвернулась.
+            </p>
+
+            <div class="mt-4 w-full md:w-auto flex flex-col items-center md:items-start">
+                <!-- ИСПРАВЛЕНО: добавлен rel="noopener noreferrer" -->
+                <a href="https://t.me/gdzshchelk_bot?start=fromweb" target="_blank" rel="noopener noreferrer" class="btn-gradient font-heading font-bold text-lg px-8 py-4 rounded-full w-full sm:w-auto block text-center">
+                    Попробовать бесплатно
+                </a>
+                <p class="mt-5 text-sm text-gray-400 font-medium">
+                    Попробуй бесплатно и забудь о домашке навсегда
+                </p>
+            </div>
+        </div>
+
+        <div class="flex-1 w-full flex justify-center items-center z-10 animate-fade-in-right mt-4 md:mt-0">
+            <div class="animate-float relative w-[280px] h-[580px] md:w-[310px] md:h-[620px] bg-gradient-to-br from-[#1a1a28] to-[#0f0f1a] rounded-[45px] p-[15px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_0_1px_rgba(59,130,246,0.2)] scale-95 sm:scale-100">
+                <div class="w-full h-full bg-darkBg rounded-[35px] overflow-hidden relative" style="background: url('img/tg.jpg') center/102% no-repeat;">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ЧТО УМЕЕТ НАШ БОТ? (FEATURES)
+         ========================================== -->
+    <section id="features" class="py-20 md:py-24 relative z-10">
+        <div class="max-w-[1000px] mx-auto px-5 md:px-6 text-center">
+            <h2 class="text-3xl md:text-5xl font-black font-heading text-center mb-12 md:mb-16 uppercase animate-fade-in">
+                ЧТО УМЕЕТ НАШ БОТ?
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="feature-card animate-fade-in-up bg-cardBg backdrop-blur-md border-[2px] border-primaryBlue/20 p-8 md:p-10 rounded-[25px] flex flex-col items-center text-center md:items-start md:text-left relative overflow-hidden" style="animation-delay: 0.1s;">
+                    <div class="w-20 h-20 bg-gradient-to-br from-accentYellow to-[#f59e0b] rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-[0_8px_25px_rgba(251,191,36,0.4)]">📸</div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Сфоткай - и готово</h3>
+                    <p class="text-gray-400 leading-relaxed text-[16px] md:text-[17px]">Больше не нужно ничего перепечатывать. Отправь фото домашки – получи готовый ответ</p>
+                </div>
+
+                <div class="feature-card animate-fade-in-up bg-cardBg backdrop-blur-md border-[2px] border-primaryBlue/20 p-8 md:p-10 rounded-[25px] flex flex-col items-center text-center md:items-start md:text-left relative overflow-hidden" style="animation-delay: 0.2s;">
+                    <div class="w-20 h-20 bg-gradient-to-br from-accentYellow to-[#f59e0b] rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-[0_8px_25px_rgba(251,191,36,0.4)]">⚡</div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Супер быстро</h3>
+                    <p class="text-gray-400 leading-relaxed text-[16px] md:text-[17px]">Ответ приходит за секунды. Только мгновенный результат</p>
+                </div>
+
+                <div class="feature-card animate-fade-in-up bg-cardBg backdrop-blur-md border-[2px] border-primaryBlue/20 p-8 md:p-10 rounded-[25px] flex flex-col items-center text-center md:items-start md:text-left relative overflow-hidden" style="animation-delay: 0.3s;">
+                    <div class="w-20 h-20 bg-gradient-to-br from-accentYellow to-[#f59e0b] rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-[0_8px_25px_rgba(251,191,36,0.4)]">🎯</div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Точность 100%</h3>
+                    <p class="text-gray-400 leading-relaxed text-[16px] md:text-[17px]">Проверенные решения с подробным объяснением</p>
+                </div>
+
+                <div class="feature-card animate-fade-in-up bg-cardBg backdrop-blur-md border-[2px] border-primaryBlue/20 p-8 md:p-10 rounded-[25px] flex flex-col items-center text-center md:items-start md:text-left relative overflow-hidden" style="animation-delay: 0.4s;">
+                    <div class="w-20 h-20 bg-gradient-to-br from-accentYellow to-[#f59e0b] rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-[0_8px_25px_rgba(251,191,36,0.4)]">🎓</div>
+                    <h3 class="text-xl font-bold font-heading mb-3 text-white">Все предметы</h3>
+                    <p class="text-gray-400 leading-relaxed text-[16px] md:text-[17px]">Математика, физика, химия, русский – один бот для всего</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         КАК ЭТО РАБОТАЕТ? (HOW IT WORKS)
+         ========================================== -->
+    <section id="how" class="py-16 md:py-24 relative z-10 bg-darkerBg/50 border-y border-primaryBlue/10">
+        <div class="max-w-[1000px] mx-auto px-5 md:px-6 text-center">
+            <h2 class="text-3xl md:text-5xl font-black font-heading text-center mb-12 md:mb-16 uppercase">
+                Как это работает
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+                <div class="flex flex-col items-center relative">
+                    <div class="w-16 h-16 rounded-full bg-primaryBlue/20 border border-primaryBlue/40 flex items-center justify-center text-3xl font-heading font-bold text-primaryCyan mb-6 shadow-[0_0_20px_rgba(6,182,212,0.2)]">1</div>
+                    <p class="text-lg md:text-xl font-medium text-white max-w-[250px]">Открой бота и нажми старт</p>
+                </div>
+                <div class="flex flex-col items-center relative">
+                    <div class="w-16 h-16 rounded-full bg-primaryBlue/20 border border-primaryBlue/40 flex items-center justify-center text-3xl font-heading font-bold text-primaryCyan mb-6 shadow-[0_0_20px_rgba(6,182,212,0.2)]">2</div>
+                    <p class="text-lg md:text-xl font-medium text-white max-w-[250px]">Скинь фото задания или текст</p>
+                </div>
+                <div class="flex flex-col items-center relative">
+                    <div class="w-16 h-16 rounded-full bg-accentYellow/20 border border-accentYellow/40 flex items-center justify-center text-3xl font-heading font-bold text-accentYellow mb-6 shadow-[0_0_20px_rgba(251,191,36,0.3)]">3</div>
+                    <p class="text-lg md:text-xl font-medium text-white max-w-[250px]">Получи подробное решение за 3 секунды</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ТАРИФЫ (PRICING)
+         ========================================== -->
+    <section id="pricing" class="py-20 md:py-24 relative z-10">
+        <div class="max-w-[1200px] mx-auto px-5 md:px-6 text-center">
+            <h2 class="text-3xl md:text-5xl font-black font-heading text-center mb-12 md:mb-16 uppercase">
+                Тарифы
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-center">
+
+                <div class="bg-cardBg backdrop-blur-md border-[2px] border-primaryBlue/20 p-8 md:p-10 rounded-[25px] flex flex-col text-center">
+                    <h3 class="text-2xl font-bold font-heading mb-2 text-white">Бесплатно</h3>
+                    <div class="text-4xl font-black font-heading text-primaryCyan mb-6">0₽</div>
+                    <p class="text-gray-400 text-lg leading-relaxed flex-grow mb-8">3 пробных запроса + 1 каждый день.</p>
+                    <!-- ИСПРАВЛЕНО: добавлен rel="noopener noreferrer" -->
+                    <a href="https://t.me/gdzshchelk_bot?start=fromweb_free" target="_blank" rel="noopener noreferrer" class="w-full bg-primaryBlue/20 hover:bg-primaryBlue/30 text-white font-bold py-4 rounded-xl transition-colors border border-primaryBlue/30">
+                        Выбрать
+                    </a>
+                </div>
+
+                <div class="bg-cardBg backdrop-blur-md border-[2px] border-accentYellow p-8 md:p-12 rounded-[25px] flex flex-col text-center shadow-[0_0_40px_rgba(251,191,36,0.2)] md:transform md:scale-105 relative z-10">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-accentYellow text-black font-bold px-4 py-1 rounded-full text-sm uppercase tracking-wide">
+                        Хит продаж
+                    </div>
+                    <h3 class="text-2xl font-bold font-heading mb-2 text-white mt-2">Срочно</h3>
+                    <div class="text-5xl font-black font-heading text-accentYellow mb-6">49₽</div>
+                    <p class="text-gray-300 text-lg leading-relaxed flex-grow mb-8">Пакет на 30 решений. Хватит на любую контрольную.</p>
+                    <!-- ИСПРАВЛЕНО: добавлен rel="noopener noreferrer" -->
+                    <a href="https://t.me/gdzshchelk_bot?start=fromweb_buy49" target="_blank" rel="noopener noreferrer" class="btn-gradient w-full font-bold py-4 rounded-xl text-center">
+                        Купить пакет
+                    </a>
+                </div>
+
+                <div class="bg-cardBg backdrop-blur-md border-[2px] border-primaryBlue/20 p-8 md:p-10 rounded-[25px] flex flex-col text-center">
+                    <h3 class="text-2xl font-bold font-heading mb-2 text-white">Безлимит</h3>
+                    <div class="text-4xl font-black font-heading text-primaryCyan mb-6">299₽<span class="text-lg text-gray-500 font-normal">/мес</span></div>
+                    <p class="text-gray-400 text-lg leading-relaxed flex-grow mb-8">Безлимитные запросы, загрузка PDF и чтение чертежей.</p>
+                    <!-- ИСПРАВЛЕНО: добавлен rel="noopener noreferrer" -->
+                    <a href="https://t.me/gdzshchelk_bot?start=fromweb_sub1m" target="_blank" rel="noopener noreferrer" class="w-full bg-primaryBlue/20 hover:bg-primaryBlue/30 text-white font-bold py-4 rounded-xl transition-colors border border-primaryBlue/30">
+                        Оформить
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FAQ (ЧАСТЫЕ ВОПРОСЫ)
+         ========================================== -->
+    <section id="faq" class="py-16 md:py-24 relative z-10 bg-darkerBg/50 border-y border-primaryBlue/10">
+        <div class="max-w-[800px] mx-auto px-5 md:px-6">
+            <h2 class="text-3xl md:text-5xl font-black font-heading text-center mb-12 md:mb-16 uppercase">
+                Частые вопросы
+            </h2>
+
+            <div class="flex flex-col gap-4">
+
+                <details class="group bg-cardBg border border-primaryBlue/20 rounded-2xl cursor-pointer">
+                    <summary class="flex justify-between items-center p-6 font-heading font-bold text-lg text-white select-none">
+                        Решает ли бот геометрию без текста?
+                        <span class="text-primaryCyan text-2xl transition-transform duration-300 group-open:rotate-45">+</span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-lg leading-relaxed border-t border-white/5 pt-4">
+                        Да! Наша нейросеть отлично понимает чертежи, графики и рукописный текст.
+                    </div>
+                </details>
+
+                <details class="group bg-cardBg border border-primaryBlue/20 rounded-2xl cursor-pointer">
+                    <summary class="flex justify-between items-center p-6 font-heading font-bold text-lg text-white select-none">
+                        Это легально?
+                        <span class="text-primaryCyan text-2xl transition-transform duration-300 group-open:rotate-45">+</span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-lg leading-relaxed border-t border-white/5 pt-4">
+                        Бот работает как твой личный ИИ-репетитор. Он не просто дает ответ, но и объясняет решение по шагам.
+                    </div>
+                </details>
+
+                <details class="group bg-cardBg border border-primaryBlue/20 rounded-2xl cursor-pointer">
+                    <summary class="flex justify-between items-center p-6 font-heading font-bold text-lg text-white select-none">
+                        Как быстро приходит ответ?
+                        <span class="text-primaryCyan text-2xl transition-transform duration-300 group-open:rotate-45">+</span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-lg leading-relaxed border-t border-white/5 pt-4">
+                        В среднем от 3 до 5 секунд в зависимости от сложности задания.
+                    </div>
+                </details>
+
+                <details class="group bg-cardBg border border-primaryBlue/20 rounded-2xl cursor-pointer">
+                    <summary class="flex justify-between items-center p-6 font-heading font-bold text-lg text-white select-none">
+                        Понимает ли бот рукописный текст учителей?
+                        <span class="text-primaryCyan text-2xl transition-transform duration-300 group-open:rotate-45">+</span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-lg leading-relaxed border-t border-white/5 pt-4">
+                        Да! Наши нейросети обучены распознавать даже самый неразборчивый почерк с доски или из тетради. Просто сделай четкое фото.
+                    </div>
+                </details>
+
+                <details class="group bg-cardBg border border-primaryBlue/20 rounded-2xl cursor-pointer">
+                    <summary class="flex justify-between items-center p-6 font-heading font-bold text-lg text-white select-none">
+                        Можно ли скинуть сразу целый вариант ОГЭ/ЕГЭ?
+                        <span class="text-primaryCyan text-2xl transition-transform duration-300 group-open:rotate-45">+</span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-lg leading-relaxed border-t border-white/5 pt-4">
+                        В бесплатной версии бот решает по 1 задаче. С подпиской «Безлимит» ты можешь загружать PDF-файлы или кидать альбомы до 10 фото разом — бот решит весь вариант.
+                    </div>
+                </details>
+
+                <details class="group bg-cardBg border border-primaryBlue/20 rounded-2xl cursor-pointer">
+                    <summary class="flex justify-between items-center p-6 font-heading font-bold text-lg text-white select-none">
+                        По каким предметам есть ГДЗ?
+                        <span class="text-primaryCyan text-2xl transition-transform duration-300 group-open:rotate-45">+</span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-400 text-lg leading-relaxed border-t border-white/5 pt-4">
+                        По всем школьным предметам с 5 по 11 класс: Алгебра, Геометрия, Физика, Химия (включая цепочки реакций), Русский и Английский языки, Информатика.
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         НИЖНИЙ ПРИЗЫВ К ДЕЙСТВИЮ (BOTTOM CTA)
+         ========================================== -->
+    <section class="py-16 md:py-20 mt-auto bg-gradient-to-br from-primaryBlue/10 to-primaryCyan/10 border-t-2 border-primaryBlue/20 relative z-10">
+        <div class="max-w-4xl mx-auto px-5 md:px-6 text-center flex flex-col items-center gap-8">
+            <h2 class="text-3xl md:text-5xl font-black font-heading uppercase">
+                ХВАТИТ ИСКАТЬ В ГУГЛЕ
+            </h2>
+            <!-- ИСПРАВЛЕНО: добавлен rel="noopener noreferrer" -->
+            <a href="https://t.me/gdzshchelk_bot?start=fromweb" target="_blank" rel="noopener noreferrer" class="btn-gradient w-full sm:w-auto font-heading font-bold text-lg px-10 py-4 rounded-full text-center block">
+                Запустить бота бесплатно
+            </a>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ (FOOTER) -->
+    <footer class="bg-darkerBg py-6 relative z-10 border-t border-white/5">
+        <div class="max-w-[1400px] mx-auto px-5 md:px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+            <p>© 2026 Щёлк-ГДЗ</p>
+            <!-- ИСПРАВЛЕНО: добавлен rel="noopener noreferrer" -->
+            <a href="https://telegra.ph/Polzovatelskoe-soglashenie-servisa-SHCHyolk-GDZ-11-30" target="_blank" rel="noopener noreferrer" class="hover:text-primaryCyan transition-colors duration-300">Пользовательское соглашение</a>
+        </div>
+    </footer>
+
+</body>
+</html>
