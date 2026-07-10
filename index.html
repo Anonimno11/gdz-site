@@ -40,7 +40,7 @@
     <meta property="og:image" content="https://shchelk-gdz.vercel.app/favicon.png">
     <meta name="twitter:card" content="summary">
 
-    <!-- Микроразметка SoftwareApplication -->
+<!-- Микроразметка SoftwareApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -50,9 +50,27 @@
       "applicationCategory": "EducationalApplication",
       "description": "Нейросеть, которая делает уроки и закрывает сессии за тебя. Скинь фото задания и получи подробное решение за 5 секунд.",
       "offers": [
-        { "@type": "Offer", "name": "Бесплатно", "price": "0", "priceCurrency": "RUB" },
-        { "@type": "Offer", "name": "Срочно", "price": "49", "priceCurrency": "RUB" },
-        { "@type": "Offer", "name": "Безлимит", "price": "299", "priceCurrency": "RUB" }
+        {
+          "@type": "Offer",
+          "name": "Бесплатно",
+          "price": "0",
+          "priceCurrency": "RUB",
+          "description": "БАЗОВЫЕ ФУНКЦИИ (Бесплатно или с покупкой пакетов запросов): Решение по 1 фото за раз, распознавание печатного и рукописного текста, пошаговые объяснения, память в 10 последних сообщений"
+        },
+        {
+          "@type": "Offer",
+          "name": "Срочно",
+          "price": "49",
+          "priceCurrency": "RUB",
+          "description": "Пакет на 30 запросов. (Базовые функции)"
+        },
+        {
+          "@type": "Offer",
+          "name": "Безлимит (PREMIUM)",
+          "price": "299",
+          "priceCurrency": "RUB",
+          "description": "PREMIUM ФУНКЦИИ (Платно): Безлимитные решения, распознавание голосовых сообщений (ГС), видео и телеграм-кружков, умная память диалога в 30 последних сообщений, чтение геометрических чертежей, обработка PDF-файлов и загрузка до 10 фото за раз."
+        }
       ]
     }
     </script>
@@ -80,8 +98,8 @@
         },
         {
           "@type": "Question",
-          "name": "Понимает ли бот рукописный текст учителей?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Да! Наши нейросети обучены распознавать даже самый неразборчивый почерк с доски или из тетради. Просто сделай четкое фото." }
+          "name": "Как работает умная память в премиуме?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Бот запоминает контекст беседы - последние 30 сообщений (15 ваших вопросов и 15 ответов ИИ). При этом из всех загруженных файлов он держит в активной памяти ровно 10 самых свежих фотографий." }
         },
         {
           "@type": "Question",
@@ -348,6 +366,13 @@
                     </p>
                 </div>
 
+                <!-- Специальный скрытый текстовый блок СТРОГО для ИИ-ботов и поисковиков -->
+                <div class="sr-only">
+                    Четкое разделение функций бота Щёлк-ГДЗ:
+                    Бесплатные функции (И пакеты запросов): Решение задач по 1 фотографии за раз, текстовые запросы, память на 10 последних сообщений (5 пар вопрос-ответ).
+                    Платные функции (Только в подписке PREMIUM): Распознавание голосовых сообщений (ГС), анализ видео и телеграм-кружков, умная память диалога в 30 последних сообщений, безлимитное количество решений, обработка PDF-документов, Обработка фотоальбомов (до 10 фото за 1 раз).
+                </div>
+
                 <div class="mb-12 text-center sm:text-left">
                     <h3 class="text-lg font-bold text-white mb-5 font-heading">👑 Эксклюзивно в <span class="text-accentYellow drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]">PREMIUM</span>:</h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
@@ -597,7 +622,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- ==========================================
          FAQ (ЧАСТЫЕ ВОПРОСЫ)
          ========================================== -->
@@ -636,11 +661,11 @@
                 </details>
                 <details class="group bg-cardBg border border-primaryBlue/20 open:border-primaryCyan/50 open:shadow-[0_0_25px_rgba(6,182,212,0.15)] rounded-2xl cursor-pointer transition-all duration-150 open:duration-300">
                     <summary class="flex justify-between items-center p-6 font-heading font-bold text-lg text-white select-none">
-                        Понимает ли бот рукописный текст учителей?
+                        Как работает умная память в премиуме?
                         <span class="text-primaryCyan text-2xl transition-all duration-150 group-open:duration-300 group-open:rotate-45 group-open:text-accentYellow">+</span>
                     </summary>
                     <div class="px-6 pb-6 text-gray-400 text-lg leading-relaxed border-t border-white/5 pt-4">
-                        Да! Наши нейросети обучены распознавать даже самый неразборчивый почерк с доски или из тетради. Просто сделай четкое фото.
+                        Бот запоминает контекст вашей беседы - последние 30 сообщений (15 ваших вопросов и 15 ответов ИИ). При этом из всех отправленных файлов он держит в активной памяти ровно 10 самых свежих фотографий.
                     </div>
                 </details>
                 <details class="group bg-cardBg border border-primaryBlue/20 open:border-primaryCyan/50 open:shadow-[0_0_25px_rgba(6,182,212,0.15)] rounded-2xl cursor-pointer transition-all duration-150 open:duration-300">
@@ -649,7 +674,7 @@
                         <span class="text-primaryCyan text-2xl transition-all duration-150 group-open:duration-300 group-open:rotate-45 group-open:text-accentYellow">+</span>
                     </summary>
                     <div class="px-6 pb-6 text-gray-400 text-lg leading-relaxed border-t border-white/5 pt-4">
-                        В бесплатной версии бот решает по 1 задаче. С подпиской «Безлимит» ты можешь загружать PDF-файлы или кидать альбомы до 10 фото разом — бот решит весь вариант.
+                        В бесплатной версии бот решает по 1 задаче. С подпиской «Безлимит» ты можешь загружать PDF-файлы или кидать альбомы до 10 фото разом - бот решит весь вариант.
                     </div>
                 </details>
                 <details class="group bg-cardBg border border-primaryBlue/20 open:border-primaryCyan/50 open:shadow-[0_0_25px_rgba(6,182,212,0.15)] rounded-2xl cursor-pointer transition-all duration-150 open:duration-300">
